@@ -1,4 +1,5 @@
-import earthModel from '~/assets/earth.glb';
+// Model asset now loaded from public/assets/
+const earthModel = '/assets/earth.glb';
 import mwnx from '~/assets/milkyway-nx.hdr';
 import mwny from '~/assets/milkyway-ny.hdr';
 import mwnz from '~/assets/milkyway-nz.hdr';
