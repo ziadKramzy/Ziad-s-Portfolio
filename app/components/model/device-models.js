@@ -1,5 +1,6 @@
-import iphone11 from '~/assets/iphone-11.glb';
-import macbookPro from '~/assets/macbook-pro.glb';
+// Model assets now loaded from public/assets/
+const iphone11 = '/assets/iphone-11.glb';
+const macbookPro = '/assets/macbook-pro.glb';
 
 export const ModelAnimationType = {
   SpringUp: 'spring-up',
