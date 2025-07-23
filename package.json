@@ -68,6 +68,7 @@
     "storybook": "^7.6.17",
     "vite": "^5.1.0",
     "vite-jsconfig-paths": "^2.0.1",
+    "vite-plugin-string": "^1.2.3",
     "wrangler": "^3.24.0"
   },
   "engines": {
