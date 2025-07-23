@@ -65,6 +65,7 @@ export const Model = ({
   alt,
   ...rest
 }) => {
+  // loaded: false | true | 'error'
   const [loaded, setLoaded] = useState(false);
   const container = useRef();
   const canvas = useRef();
@@ -322,39 +323,53 @@ export const Model = ({
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [renderFrame]);
+  }, []);
+
+  // (No duplicate declarations here)
 
   return (
     <div
-      className={classes(styles.model, className)}
-      data-loaded={loaded}
-      style={cssProps({ delay: numToMs(showDelay) }, style)}
       ref={container}
-      role="img"
+      className={classes(styles.model, className)}
+      style={{ ...style, '--delay': numToMs(showDelay) }}
+      data-loaded={loaded}
       aria-label={alt}
       {...rest}
     >
-      <canvas className={styles.canvas} ref={canvas} />
-      {models.map((model, index) => (
-        <Device
-          key={JSON.stringify(model.position)}
-          renderer={renderer}
-          modelGroup={modelGroup}
-          show={show}
-          showDelay={showDelay}
-          renderFrame={renderFrame}
-          index={index}
-          setLoaded={setLoaded}
-          onLoad={onLoad}
-          model={model}
-        />
-      ))}
+      {loaded === 'error' && (
+        <div style={{color: 'red', padding: '1em', background: '#222', borderRadius: 8, textAlign: 'center'}}>
+          Failed to load 3D model.<br />
+          Check the browser console for details.
+        </div>
+      )}
+      {loaded !== 'error' && (
+        <>
+          <canvas
+            ref={canvas}
+            className={styles.canvas}
+            aria-hidden
+            tabIndex={-1}
+          />
+          {models.map((model, index) => (
+            <Device
+              key={JSON.stringify(model.position)}
+              renderer={renderer}
+              modelGroup={modelGroup}
+              show={show}
+              showDelay={showDelay}
+              renderFrame={renderFrame}
+              index={index}
+              setLoaded={setLoaded}
+              onLoad={onLoad}
+              model={model}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 };
 
-const Device = ({
-  renderer,
   model,
   modelGroup,
   renderFrame,
@@ -389,10 +404,21 @@ const Device = ({
       let loadFullResTexture;
       let playAnimation;
 
-      const [placeholder, gltf] = await Promise.all([
-        await textureLoader.loadAsync(texture.placeholder),
-        await modelLoader.loadAsync(url),
-      ]);
+      let placeholder, gltf;
+      try {
+        placeholder = await textureLoader.loadAsync(texture.placeholder);
+      } catch (err) {
+        console.error('Failed to load model placeholder texture:', texture.placeholder, err);
+        setLoaded('error');
+        return;
+      }
+      try {
+        gltf = await modelLoader.loadAsync(url);
+      } catch (err) {
+        console.error('Failed to load 3D model:', url, err);
+        setLoaded('error');
+        return;
+      }
 
       modelGroup.current.add(gltf.scene);
 
@@ -465,35 +491,6 @@ const Device = ({
         playAnimation = () => {
           const frameNode = gltf.scene.children.find(
             node => node.name === MeshType.Frame
-          );
-          const startRotation = new Vector3(MathUtils.degToRad(90), 0, 0);
-          const endRotation = new Vector3(0, 0, 0);
-
-          gltf.scene.position.set(...targetPosition.toArray());
-          frameNode.rotation.set(...startRotation.toArray());
-
-          return animate(startRotation.x, endRotation.x, {
-            type: 'spring',
-            delay: (300 * index + showDelay + 300) / 1000,
-            stiffness: 80,
-            damping: 20,
-            restSpeed: 0.0001,
-            restDelta: 0.0001,
-            onUpdate: value => {
-              frameNode.rotation.x = value;
-              renderFrame();
-            },
-          });
-        };
-      }
-
-      return { loadFullResTexture, playAnimation };
-    };
-
-    setLoadDevice({ start: load });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     if (!loadDevice || !show) return;
