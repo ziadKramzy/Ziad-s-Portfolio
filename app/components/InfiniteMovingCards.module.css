@@ -1,0 +1,65 @@
+.cardsContainer {
+  width: 100%;
+  overflow: hidden;
+  padding: 2rem 1.5rem;
+  position: relative;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: auto;
+}
+
+.cardsTrack {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 2rem;
+  will-change: transform;
+  transition: none;
+}
+
+.card {
+  min-width: 340px;
+  max-width: 340px;
+  background: linear-gradient(135deg, rgba(32,34,37,0.92) 60%, rgba(60,60,60,0.8) 100%);
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.14);
+  padding: 2rem 1.5rem;
+  color: #fff;
+  font-size: 1.1rem;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  opacity: 0.93;
+}
+
+.quote {
+  font-size: 1.05rem;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  color: #e0e0e0;
+}
+
+.author {
+  font-weight: bold;
+  color: #b5e0ff;
+  margin-bottom: 0.25rem;
+}
+
+.title {
+  font-size: 0.97rem;
+  color: #bdbdbd;
+}
+
+@media (max-width: 600px) {
+  .card {
+    min-width: 90vw;
+    max-width: 90vw;
+    padding: 1.2rem 1rem;
+  }
+  .cardsTrack {
+    gap: 1rem;
+  }
+}
