@@ -27,13 +27,7 @@ export default defineConfig({
       providerImportSource: '@mdx-js/react',
     }),
     remixCloudflareDevProxy(),
-    remix({
-      routes(defineRoutes) {
-        return defineRoutes(route => {
-          route('/', 'routes/home/route.js', { index: true });
-        });
-      },
-    }),
+    remix(),
     jsconfigPaths(),
     vitePluginString({
       include: ['**/*.glsl', '**/*.vs', '**/*.fs', '**/*.vert', '**/*.frag'],
