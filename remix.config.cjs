@@ -2,6 +2,6 @@
  * @type {import('@remix-run/dev').AppConfig}
  */
 module.exports = {
-  serverBuildTarget: "netlify",
+  serverBuildTarget: "cloudflare-pages",
   // Add other config options here if needed
 };
