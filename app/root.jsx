@@ -65,6 +65,7 @@ export const loader = async ({ request, context }) => {
       secure: true,
     },
   });
+   
 
   const session = await getSession(request.headers.get('Cookie'));
   const theme = session.get('theme') || 'dark';
