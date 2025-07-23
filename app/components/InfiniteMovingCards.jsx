@@ -56,7 +56,7 @@ export function InfiniteMovingCards({ skills = [], direction = "right", speed = 
           <div className={styles.card} key={i}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
               <svg width={48} height={48} style={{ marginBottom: "0.5rem" }}>
-                <use href={"/app/components/skills-icons.svg#" + skillIconMap[skill]} />
+                <use href={"/icons/skills-icons.svg#" + skillIconMap[skill]} />
               </svg>
               <span style={{ fontWeight: "bold", fontSize: "1.1rem", color: "#b5e0ff" }}>{skill}</span>
             </div>
