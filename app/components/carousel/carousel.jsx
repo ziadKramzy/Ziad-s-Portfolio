@@ -365,7 +365,7 @@ export const Carousel = ({ width, height, images, placeholder, ...rest }) => {
             aria-label={currentImageAlt}
             role="img"
           >
-            <canvas aria-hidden className={styles.canvas} ref={canvas} />
+            <canvas aria-hidden tabIndex="-1" className={styles.canvas} ref={canvas} />
           </div>
           {showPlaceholder && placeholder && (
             <img

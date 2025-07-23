@@ -187,6 +187,7 @@ export const DisplacementSphere = props => {
       {({ visible, nodeRef }) => (
         <canvas
           aria-hidden
+          tabIndex="-1"
           className={styles.canvas}
           data-visible={visible}
           ref={nodeRef}
